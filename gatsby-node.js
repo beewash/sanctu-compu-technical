@@ -13,16 +13,7 @@ async function createPokeProfile (graphql, actions) {
         edges {
           node {
             id
-            image
             name
-            stats {
-              attack
-              defense
-              hp
-              special_attack
-              special_defense
-              speed
-            }
           }
         }
       }
