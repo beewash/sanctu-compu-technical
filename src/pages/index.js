@@ -1,28 +1,47 @@
 import * as React from "react"
 import { Link } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
+// import { StaticImage } from "gatsby-plugin-image"
+import { graphql, StaticQuery } from "gatsby"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
+export const query = graphql`
+query {
+  pokemon: allPokemon {
+    nodes {
+      name
+      stats {
+        attack
+        defense
+        special_attack
+        hp
+        special_defense
+        speed
+      }
+      types
+    }
+  }
+}
+`
+
 const IndexPage = () => (
+
   <Layout>
     <Seo title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <StaticImage
-      src="../images/gatsby-astronaut.png"
-      width={300}
-      quality={95}
-      formats={["auto", "webp", "avif"]}
-      alt="A Gatsby astronaut"
-      style={{ marginBottom: `1.45rem` }}
+    <StaticQuery
+      key="pokemon_query"
+      query={query}
+      render={data => (
+        <>
+          {data && data.pokemon.nodes.map(pokemon => (
+            <Link to={`/${pokemon.name}`}>
+              <div>{pokemon.name}</div>
+            </Link>
+          ))}
+        </>
+      )}
     />
-    <p>
-      <Link to="/page-2/">Go to page 2</Link> <br />
-      <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
-    </p>
   </Layout>
 )
 

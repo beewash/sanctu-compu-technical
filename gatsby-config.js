@@ -1,9 +1,8 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
-    siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
+    title: `Bryan's Pokedex`,
+    description: `Catch'n em all!`,
+    author: `Bryan Washington`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -33,23 +32,9 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-source-rest-api',
+      resolve: `gatsby-source-pokeapi`,
       options: {
-        endpoints: [
-          'https://jsonplaceholder.typicode.com/posts',
-          'https://jsonplaceholder.typicode.com/users',
-        ],
-      },
-    },
-    {
-      resolve: "gatsby-source-graphql",
-      options: {
-        // Arbitrary name for the remote schema Query type
-        typeName: "SWAPI",
-        // Field under which the remote schema will be accessible. You'll use this in your Gatsby query
-        fieldName: "swapi",
-        // Url to query from
-        url: "https://swapi-graphql.netlify.app/.netlify/functions/index",
+        nbOfPokemons: 251,
       },
     }
     // this (optional) plugin enables Progressive Web App + Offline functionality
