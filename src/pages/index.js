@@ -1,48 +1,53 @@
-import * as React from "react"
-import { Link } from "gatsby"
-// import { StaticImage } from "gatsby-plugin-image"
-import { graphql, StaticQuery } from "gatsby"
-
-import Layout from "../components/layout"
-import Seo from "../components/seo"
+import React, {useState} from 'react'
+import { graphql } from 'gatsby'
+import Layout from '../components/layout'
+import Seo from '../components/seo'
+import Roster from '../components/roster'
+import Button from '../components/button'
 
 export const query = graphql`
 query {
   pokemon: allPokemon {
     nodes {
       name
-      stats {
-        attack
-        defense
-        special_attack
-        hp
-        special_defense
-        speed
-      }
       types
     }
   }
 }
 `
 
-const IndexPage = () => (
+const IndexPage = ({ data }) => {
+  const pokemon = data && data.pokemon.nodes
 
-  <Layout>
-    <Seo title="Home" />
-    <StaticQuery
-      key="pokemon_query"
-      query={query}
-      render={data => (
-        <>
-          {data && data.pokemon.nodes.map(pokemon => (
-            <Link to={`/${pokemon.name}`}>
-              <div>{pokemon.name}</div>
-            </Link>
-          ))}
-        </>
-      )}
-    />
-  </Layout>
-)
+  // console.log(pokemon)
+
+  const allCategories = ['all', 'grass', 'fire', 'water', 'poison', 'flying', 'bug', 'normal']
+
+  const [rosterItem, setRosterItem] = useState(pokemon)
+  // const [buttons, setButtons] = useState(allCategories)
+  const [buttons] = useState(allCategories)
+
+  //Filter Function
+  const filter = (button) =>{
+
+    // console.log(button)
+
+    if(button === 'all'){
+      setRosterItem(pokemon);
+      return;
+    }
+
+    const filteredData = pokemon.filter(pokemon => pokemon.types.includes(button))
+    setRosterItem(filteredData)
+  }
+
+  return (
+    <Layout>
+      <Seo title="Home" />
+      <Button button={buttons} filter={filter} />
+      <Roster rosterItem={rosterItem} />
+    </Layout>
+  )
+}
 
 export default IndexPage
